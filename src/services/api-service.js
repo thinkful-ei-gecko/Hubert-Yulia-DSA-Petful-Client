@@ -1,34 +1,20 @@
 import config from '../config';
 
 const PetsApiService = {
-  getDog() {
+  getPets() {
     //need to edit the updated endpoint
-    return fetch(`${config.API_ENDPOINT}/`, {
+    return fetch(`${config.API_ENDPOINT}/pet`, {
       method: 'GET',
       headers: {
         "content/type": "application/json"
       }
     })
-      .then(res =>
+      .then(res => {
         (!res.ok)
           ? res.json().then(e => Promise.reject(e))
           : res.json()
-        )
-  },
+        })
 
-  getCat() {
-    //need to edit the updated endpoint
-    return fetch(`${config.API_ENDPOINT}/`, {
-      method: 'GET',
-      headers: {
-        "content/type": "application/json",
-      }
-    })
-    .then(res =>
-      (!res.ok)
-        ? res.json().then(e => Promise.reject(e))
-        : res.json()
-      )
   },
 
   deleteDog() {
