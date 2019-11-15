@@ -9,6 +9,7 @@ export default class Adoption extends Component {
     super(props)
 
     this.state = {
+      pet: [],
       pets: [],
       person: [],
     }
@@ -49,6 +50,19 @@ export default class Adoption extends Component {
       return res;
     })
     .then(res => res.json())
+    .then(pet => this.setState({ pet }))
+    .catch(e => console.error(e))
+  }
+
+  getAllPets() {
+    fetch(`${config.API_ENDPOINT}/pet/list`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Error')
+      }
+      return res;
+    })
+    .then(res => res.json())
     .then(pet => this.setState({ pets: pet }))
     .catch(e => console.error(e))
   }
@@ -62,16 +76,20 @@ export default class Adoption extends Component {
         throw new Error('Error')
       }
     })
-    .then(pet => this.setState({ pets: pet }))
+    .then(() => {
+      let newState = this.state.pets;
+      newState.filter(pet => pet !== newState[0])
+      this.setState({ pet: newState })
+    })
     .catch(e => console.error(e))
   }
 
 
   componentDidMount() {
     //setInterval(() => this.adoptPet(), 3000)
-    this.getPet();
+    this.getAllPets();
 
-    this.getPerson();
+    //this.getPerson();
   }
 
   render() {

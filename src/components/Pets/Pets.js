@@ -15,7 +15,7 @@ export default class Pets extends Component {
             <li>Age: {pets.age}</li>
             <li>Breed: {pets.breed}</li>
             <li>Story: {pets.story}</li>
-          </ul>          
+          </ul>
       </div>
       </React.Fragment>
     )
