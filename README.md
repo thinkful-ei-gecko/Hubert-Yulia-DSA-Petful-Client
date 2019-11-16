@@ -1,5 +1,8 @@
 # Petful
 * Link to live app: https://hubert-yulia-petful-client.now.sh
+* Link to live server: https://safe-dusk-79166.herokuapp.com/api
+
+* Linke to client repo: https://github.com/thinkful-ei-gecko/Hubert-Yulia-DSA-Petful-Client
 * Link to API repo: https://github.com/thinkful-ei-gecko/Hubert-Yulia-petful-server
 
 ## Teammate: Hubert Yang and Yulia Khisamutdinova
