@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
+import Pet from '../Pet/Pet';
+import Person from '../Person/Person';
 import Pets from '../Pets/Pets';
-import Person from '../Person/Person'
-import config from '../../config'
+import config from '../../config';
 //import PetsApiService from '../../services/api-service';
 
 export default class Adoption extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
-      pet: [],
+      pet: '',
       pets: [],
-      person: [],
+      person: '',
+      persons: []
     }
   }
 
-  getPerson() {
+  getPerson = () => {
     fetch(`${config.API_ENDPOINT}/person`)
     .then(res => {
       if (!res.ok) {
@@ -24,24 +25,11 @@ export default class Adoption extends Component {
       return res;
     })
     .then(res => res.json())
-    .then(person => this.setState({ person }))
+    .then(person => this.setState({person: person}))
     .catch(e => console.error(e))
   }
 
-  dequeuePerson() {
-    fetch(`${config.API_ENDPOINT}/person`, {
-      method: 'DELETE',
-    })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Error')
-      }
-    })
-    .then(person => this.setState({ person }))
-    .catch(e => console.error(e))
-  }
-
-  getPet() {
+  getPet= () => {
     fetch(`${config.API_ENDPOINT}/pet`)
     .then(res => {
       if (!res.ok) {
@@ -50,24 +38,16 @@ export default class Adoption extends Component {
       return res;
     })
     .then(res => res.json())
-    .then(pet => this.setState({ pet }))
+    .then(pet => this.setState({pet: pet}))
     .catch(e => console.error(e))
   }
 
-  getAllPets() {
-    fetch(`${config.API_ENDPOINT}/pet/list`)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Error')
-      }
-      return res;
-    })
-    .then(res => res.json())
-    .then(pet => this.setState({ pets: pet }))
-    .catch(e => console.error(e))
+  adoptPet = () => {
+    this.dequeuePet();
+    this.dequeuePerson();
   }
 
-  adoptPet() {
+  dequeuePet = () => {
     fetch(`${config.API_ENDPOINT}/pet`, {
       method: 'DELETE',
     })
@@ -77,31 +57,60 @@ export default class Adoption extends Component {
       }
     })
     .then(() => {
-      let newState = this.state.pets;
-      newState.filter(pet => pet !== newState[0])
-      this.setState({ pet: newState })
+      this.getPet();
+      let updatedState = this.state.pets.filter(pet => pet !== this.state.pets[0])
+      this.setState({pets: updatedState})
     })
     .catch(e => console.error(e))
   }
 
+  dequeuePerson = () => {
+    fetch(`${config.API_ENDPOINT}/person`, {
+      method: 'DELETE',
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Error')
+      }
+    })
+    .then(() => {
+    this.getPerson();
+    })
+    .catch(e => console.error(e))
+  }
+
+  getAllPets = () => {
+    fetch(`${config.API_ENDPOINT}/pet/list`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Error')
+      }
+      return res;
+    })
+    .then(res => res.json())
+    .then(pets => this.setState({ pets: pets }))
+    .catch(e => console.error(e))
+  }
 
   componentDidMount() {
-    //setInterval(() => this.adoptPet(), 3000)
+    this.getPet();
+    this.getPerson();
     this.getAllPets();
-
-    //this.getPerson();
   }
 
   render() {
-    console.log(this.state.pets)
+    console.log('state pets', this.state.pets)
     return (
       <div>
         <h1>Adopt a Pet</h1>
+        <Pets 
+          pets = {this.state.pets}
+        />
         <Person 
           person={this.state.person}
         />
-        <Pets 
-          pets={this.state.pets}
+        <Pet 
+          pet={this.state.pet}
         />
         <button onClick={this.adoptPet}>Adopt Me!</button>
         <button onClick={this.dequeuePerson}>Not Interested</button>

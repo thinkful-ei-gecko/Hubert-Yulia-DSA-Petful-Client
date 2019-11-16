@@ -21,13 +21,11 @@ export default class LandingPage extends Component {
         full_name: name
       })
     })
-    .then(res => {
-      const json = res.json()
-      if (!res.ok) {
-        throw new Error (json.error)
-      }
-      return json;
-    })
+    .then(res => 
+      (!res.ok)
+      ? res.json().then(e => Promise.reject(e))
+      : res.json()
+    )
     .catch(e => console.error(e))
     this.props.history.push('/adopt');
     console.log('post')
@@ -35,11 +33,12 @@ export default class LandingPage extends Component {
 
 	onChangeHandle = (e) => {
 		this.setState({
-			[e.target.name]: e.target.value,
+			name: e.target.value,
 		})
   }
   
   render() {
+    console.log(this.state);
     return(
       <div className="landing-page">
         <h1>Welcome to Petful!</h1>
@@ -50,7 +49,7 @@ export default class LandingPage extends Component {
           <legend>Adopt a Pet!</legend>
           <label htmlFor="name">What is your name?</label>
           <input
-            type="type"
+            type="text"
             id="name"
             onChange={this.onChangeHandle}
             name="name"

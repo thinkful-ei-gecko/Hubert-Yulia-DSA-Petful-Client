@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
-import './Pets.css'
 
 export default class Pets extends Component {
+
   render() {
     const { pets } = this.props;
     return (
-      <React.Fragment>
-      <div className="pet-page">
-        <h2>Available Pets</h2>             
-          <ul>
-            <img src={pets.imageURL} alt={pets.imageDescription}/>
-            <li>Name: {pets.name}</li>
-            <li>Gender: {pets.sex}</li>
-            <li>Age: {pets.age}</li>
-            <li>Breed: {pets.breed}</li>
-            <li>Story: {pets.story}</li>
-          </ul>
+      <div className="pets-page">
+        <h2>Pets in the shelter</h2>
+        {pets.map((pet, index) => {
+        return <ul key={index}><li key={index}><img src={pet.imageURL} alt={pet.imageDescription}/></li>
+          <li>Name: {pet.name}</li>
+          <li>Gender: {pet.sex}</li>
+          <li>Age: {pet.age}</li>
+          <li>Breed: {pet.breed}</li>
+          <li>Story: {pet.story}</li>
+        </ul>
+        })}      
       </div>
-      </React.Fragment>
     )
   }
 }
