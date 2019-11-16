@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import Pet from '../Pet/Pet';
 import Person from '../Person/Person';
 import Pets from '../Pets/Pets';
-import Persons from '../Persons/Persons';
 import config from '../../config';
-//import PetsApiService from '../../services/api-service';
+import ErrorPage from '../ErrorPage/ErrorPage'
 
 export default class Adoption extends Component {
   constructor(props) {
@@ -13,7 +12,8 @@ export default class Adoption extends Component {
       pet: '',
       pets: [],
       person: '',
-      persons: []
+      persons: [],
+      name:'',
     }
   }
 
@@ -76,8 +76,6 @@ export default class Adoption extends Component {
     })
     .then(() => {
     this.getPerson();
-    let updatedState = this.state.persons.filter(person => person !== this.state.persons[0])
-    this.setState({persons: updatedState})
     })
     .catch(e => console.error(e))
   }
@@ -95,45 +93,66 @@ export default class Adoption extends Component {
     .catch(e => console.error(e))
   }
 
-  getAllPersons = () => {
-    fetch(`${config.API_ENDPOINT}/person/list`)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Error')
-      }
-      return res;
-    })
-    .then(res => res.json())
-    .then(persons => this.setState({ persons: persons }))
-    .catch(e => console.error(e))
+  validatePet() {
+    let pets = this.state.pets;
+    
+    if(pets.length < 1) {
+      return 'No more available pets to be adopted';
+    }
+  }
+
+  validatePerson() {
+    let person = this.state.person;
+    
+    if(person.length === 0) {
+      return 'Queue is empty. Please get back in line';
+    }
+  }
+
+  goBack = () => {
+    this.props.history.push('/')
   }
 
   componentDidMount() {
     this.getPet();
     this.getPerson();
     this.getAllPets();
-    this.getAllPersons();
   }
 
   render() {
-    console.log('state persons', this.state.persons)
-    return (
+    let petError = this.validatePet();
+    let personError = this.validatePerson();
+
+    if (this.state.pets !== null) {
+      return (
       <div>
         <h1>Adopt a Pet</h1>
         <Pets 
           pets = {this.state.pets}
         />
-        <Persons 
-          persons={this.state.persons}/>
         <Person 
           person={this.state.person}
         />
+        <ErrorPage message={personError || petError}/>
         <Pet 
           pet={this.state.pet}
         />
-        <button onClick={this.adoptPet}>Adopt Me!</button>
-        <button onClick={this.dequeuePerson}>Not Interested</button>
+        <button
+          onClick={this.adoptPet}
+          disabled={personError || petError}
+        >
+          Adopt Me!
+        </button>
+        <button
+          onClick={this.dequeuePerson}
+          disabled={personError}
+        >
+          Not Interested
+        </button>
+        <button onClick={this.goBack}>Go Back</button>
       </div>
     )
+    }
+    
   }
 }
