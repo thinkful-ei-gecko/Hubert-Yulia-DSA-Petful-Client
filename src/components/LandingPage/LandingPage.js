@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { Link, Route } from 'react-router-dom'
 import config from '../../config'
 
 export default class LandingPage extends Component {
@@ -21,14 +20,15 @@ export default class LandingPage extends Component {
         full_name: name
       })
     })
-    .then(res => 
-      (!res.ok)
-      ? res.json().then(e => Promise.reject(e))
-      : res.json()
-    )
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Error')
+      }
+      return res;
+    })
+    .then(res => res.json())
     .catch(e => console.error(e))
     this.props.history.push('/adopt');
-    console.log('post')
   }
 
 	onChangeHandle = (e) => {
@@ -38,7 +38,6 @@ export default class LandingPage extends Component {
   }
   
   render() {
-    console.log(this.state.name);
     return(
       <div className="landing-page">
         <h1>Welcome to Petful!</h1>
@@ -57,9 +56,7 @@ export default class LandingPage extends Component {
             required
           >
           </input>
-          {/* <Link to="/adopt" className="adopt-btn"> */}
             <button type="submit">Adopt Now</button>
-          {/* </Link> */}
         </form>
     </div>
     )

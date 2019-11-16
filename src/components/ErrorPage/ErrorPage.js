@@ -1,4 +1,5 @@
 import React from 'react';
+import './ErrorPage.css'
 
 export default function ValidateError(props) {
   if(props.message) {
