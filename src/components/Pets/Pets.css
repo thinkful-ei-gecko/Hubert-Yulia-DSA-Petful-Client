@@ -1,11 +1,27 @@
-.shelter-pet {
-  border: 2px solid;
+.pets-section {
+  margin: 40px;
 }
 
-.pet-page {
+.pets-page {
   display: flex;
+  justify-content: space-around;
 }
 
-.pet-page ul {
-  flex-wrap: wrap;
+.shelter-pets {
+  border: 2px solid black;
+  margin: 5px;
+  padding: 10px;
+}
+
+.shelter-pets-img {
+  width: 100px;
+  height: 75px;
+}
+
+@media screen and (max-width: 600px) {
+  .pets-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
 }

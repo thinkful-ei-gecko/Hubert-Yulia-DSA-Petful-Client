@@ -20,7 +20,49 @@
 .App-link {
   color: #09d3ac;
 }
+.landing-image {
+  width: 30%;
+  border-radius: 50%;
+}
 
-.pets-page {
-  display: flex;
+.landing-desc {
+  font-size: 120%;
+  font-weight: 500;
+  margin: 40px;
+}
+
+button {
+  margin: 20px 5px;
+  padding: 5px;
+  font-size: 100%;
+  font-weight: 600;
+}
+
+.get-in-line {
+  margin: 0px auto 20px;
+  font-size: 120%;
+  font-weight: 500;
+}
+.get-in-line button {
+  padding: 5px;
+  font-size: 15px;
+}
+
+label {
+  margin: 0 10px 0 0;
+}
+input {
+  padding: 5px;
+}
+
+@media screen and (max-width: 600px) {
+  .get-in-line {
+    width: 80%;
+    font-size: 120%;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
 }

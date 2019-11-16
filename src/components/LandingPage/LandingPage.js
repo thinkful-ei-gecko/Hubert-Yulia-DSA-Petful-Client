@@ -56,12 +56,12 @@ export default class LandingPage extends Component {
     return(
       <div className="landing-page">
         <h1>Welcome to Petful!</h1>
-        <img src="https://bit.ly/33TNE23" alt="cat and dog"/>
-        <p>
+        <img src="https://bit.ly/33TNE23" alt="cat and dog" className="landing-image"/>
+        <p className="landing-desc">
         Here at petful, you are able to adopt either a cat or a dog. The adoption process is strictly on a first come first serve basis, so get your place in line to adopt the pet of your dreams.
         </p>
         <Pets pets={this.state.pets}/>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="get-in-line">
           <legend>Adopt a Pet!</legend>
           <label htmlFor="name">What is your name?</label>
           <input
