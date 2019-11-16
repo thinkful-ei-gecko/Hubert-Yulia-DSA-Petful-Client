@@ -1,0 +1,11 @@
+.shelter-pet {
+  border: 2px solid;
+}
+
+.pet-page {
+  display: flex;
+}
+
+.pet-page ul {
+  flex-wrap: wrap;
+}

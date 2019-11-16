@@ -38,10 +38,11 @@ export default class LandingPage extends Component {
   }
   
   render() {
-    console.log(this.state);
+    console.log(this.state.name);
     return(
       <div className="landing-page">
         <h1>Welcome to Petful!</h1>
+        <img src="https://bit.ly/33TNE23" alt="cat and dog"/>
         <p>
         Here at petful, you are able to adopt either a cat or a dog. The adoption process is strictly on a first come first serve basis, so get your place in line to adopt the pet of your dreams.
         </p>
