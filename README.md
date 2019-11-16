@@ -1,5 +1,5 @@
 # Petful
-* Link to live app: 
+* Link to live app: https://hubert-yulia-petful-client.now.sh
 * Link to API repo: https://github.com/thinkful-ei-gecko/Hubert-Yulia-petful-server
 
 ## Teammate: Hubert Yang and Yulia Khisamutdinova

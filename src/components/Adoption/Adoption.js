@@ -130,10 +130,16 @@ export default class Adoption extends Component {
   }
 
   componentDidMount() {
-    this.getPet();
-    this.getPerson();
-    this.getAllPets();
-    this.getAllPersons();
+    this.timer = setTimeout(() => {
+      this.getPet();
+      this.getPerson();
+      this.getAllPets();
+      this.getAllPersons();
+    }, 10)
+  }
+
+  componentWillMount() {
+    clearTimeout(this.timer)
   }
 
   render() {
