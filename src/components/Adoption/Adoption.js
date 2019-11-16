@@ -4,7 +4,6 @@ import Person from '../Person/Person';
 import Pets from '../Pets/Pets';
 import Persons from '../Persons/Persons';
 import config from '../../config';
-import ErrorPage from '../ErrorPage/ErrorPage'
 //import PetsApiService from '../../services/api-service';
 
 export default class Adoption extends Component {
@@ -14,8 +13,7 @@ export default class Adoption extends Component {
       pet: '',
       pets: [],
       person: '',
-      persons: [],
-      name:'',
+      persons: []
     }
   }
 
@@ -32,7 +30,7 @@ export default class Adoption extends Component {
     .catch(e => console.error(e))
   }
 
-  getPet = () => {
+  getPet= () => {
     fetch(`${config.API_ENDPOINT}/pet`)
     .then(res => {
       if (!res.ok) {
@@ -105,57 +103,8 @@ export default class Adoption extends Component {
       }
       return res;
     })
-    .then(res => {
-      res.json()
-    })
-    .then(persons => {
-      console.log(persons)
-      this.setState({ persons: persons })})
-    .catch(e => console.error(e))
-  }
-
-  // validatePet = () => {
-  //   let pets = this.state.pets;
-    
-  //   if(pets.length < 1) {
-  //     return false;
-  //   }
-  // }
-
-  // validatePerson = () => {
-  //   let person = this.state.persons;
-    
-  //   if(person.length === 0) {
-  //     return false;
-  //   }
-  // }
-
-  goBack = () => {
-    this.props.history.push('/')
-  }
-
-  onChangeHandle = (e) => {
-		this.setState({
-			name: e.target.value,
-		})
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    let { name } = this.state;
-
-    fetch(`${config.API_ENDPOINT}/person`, {
-      method: 'POST',
-      headers: {'content-type':'application/json'},
-      body: JSON.stringify({
-        full_name: name
-      })
-    })
-    .then(res => 
-      (!res.ok)
-      ? res.json().then(e => Promise.reject(e))
-      : res.json()
-    )
+    .then(res => res.json())
+    .then(persons => this.setState({ persons: persons }))
     .catch(e => console.error(e))
   }
 
@@ -167,38 +116,24 @@ export default class Adoption extends Component {
   }
 
   render() {
-    // let petError = this.validatePet();
-    // let personError = this.validatePerson();
-
+    console.log('state persons', this.state.persons)
     return (
-    <div>
-      <h1>Adopt a Pet</h1>
-      <Pets 
-        pets = {this.state.pets}
-      />
-      <Persons 
-        persons={this.state.persons}/>
-      <Person 
-        person={this.state.person}
-      />
-      {/* <ErrorPage message={petError}/> */}
-      <Pet 
-        pet={this.state.pet}
-      />
-      <button
-        onClick={this.adoptPet}
-        // disabled={petError && personError}
-      >
-        Adopt Me!
-      </button>
-      <button
-        onClick={this.dequeuePerson}
-        // disabled={personError && petError}
-      >
-        Not Interested
-      </button>
-      <button onClick={this.goBack}>Go Back</button>
-    </div>
-   )
+      <div>
+        <h1>Adopt a Pet</h1>
+        <Pets 
+          pets = {this.state.pets}
+        />
+        <Persons 
+          persons={this.state.persons}/>
+        <Person 
+          person={this.state.person}
+        />
+        <Pet 
+          pet={this.state.pet}
+        />
+        <button onClick={this.adoptPet}>Adopt Me!</button>
+        <button onClick={this.dequeuePerson}>Not Interested</button>
+      </div>
+    )
   }
 }
