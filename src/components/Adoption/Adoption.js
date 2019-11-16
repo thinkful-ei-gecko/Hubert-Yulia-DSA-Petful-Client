@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Pet from '../Pet/Pet';
 import Person from '../Person/Person';
 import Pets from '../Pets/Pets';
+import Persons from '../Persons/Persons';
 import config from '../../config';
 import ErrorPage from '../ErrorPage/ErrorPage'
 
@@ -76,6 +77,8 @@ export default class Adoption extends Component {
     })
     .then(() => {
     this.getPerson();
+    let updatedState = this.state.persons.filter(person => person !== this.state.persons[0])
+    this.setState({persons: updatedState})
     })
     .catch(e => console.error(e))
   }
@@ -90,6 +93,19 @@ export default class Adoption extends Component {
     })
     .then(res => res.json())
     .then(pets => this.setState({ pets: pets }))
+    .catch(e => console.error(e))
+  }
+
+  getAllPersons = () => {
+    fetch(`${config.API_ENDPOINT}/person/list`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Error')
+      }
+      return res;
+    })
+    .then(res => res.json())
+    .then(persons => this.setState({ persons: persons }))
     .catch(e => console.error(e))
   }
 
@@ -117,12 +133,13 @@ export default class Adoption extends Component {
     this.getPet();
     this.getPerson();
     this.getAllPets();
+    this.getAllPersons();
   }
 
   render() {
     let petError = this.validatePet();
     let personError = this.validatePerson();
-
+    console.log(this.state.persons)
     if (this.state.pets !== null) {
       return (
       <div>
@@ -130,6 +147,7 @@ export default class Adoption extends Component {
         <Pets 
           pets = {this.state.pets}
         />
+        <Persons persons={this.state.persons} />
         <Person 
           person={this.state.person}
         />
