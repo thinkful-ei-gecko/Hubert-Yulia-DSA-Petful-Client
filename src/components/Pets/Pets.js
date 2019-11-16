@@ -10,7 +10,7 @@ export default class Pets extends Component {
         <h2>Pets in the shelter</h2>
         {pets.map((pet, index) => {
         return <ul key={index} className="shelter-pet">
-          <li key={index}><img src={pet.imageURL} alt={pet.imageDescription}/></li>
+          <li><img src={pet.imageURL} alt={pet.imageDescription}/></li>
           <li>Name: {pet.name}</li>
           <li>Gender: {pet.sex}</li>
           <li>Age: {pet.age}</li>
