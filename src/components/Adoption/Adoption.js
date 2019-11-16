@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Pet from '../Pet/Pet';
 import Person from '../Person/Person';
 import Pets from '../Pets/Pets';
+import Persons from '../Persons/Persons';
 import config from '../../config';
 //import PetsApiService from '../../services/api-service';
 
@@ -75,6 +76,8 @@ export default class Adoption extends Component {
     })
     .then(() => {
     this.getPerson();
+    let updatedState = this.state.persons.filter(person => person !== this.state.persons[0])
+    this.setState({persons: updatedState})
     })
     .catch(e => console.error(e))
   }
@@ -92,20 +95,36 @@ export default class Adoption extends Component {
     .catch(e => console.error(e))
   }
 
+  getAllPersons = () => {
+    fetch(`${config.API_ENDPOINT}/person/list`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Error')
+      }
+      return res;
+    })
+    .then(res => res.json())
+    .then(persons => this.setState({ persons: persons }))
+    .catch(e => console.error(e))
+  }
+
   componentDidMount() {
     this.getPet();
     this.getPerson();
     this.getAllPets();
+    this.getAllPersons();
   }
 
   render() {
-    console.log('state pets', this.state.pets)
+    console.log('state persons', this.state.persons)
     return (
       <div>
         <h1>Adopt a Pet</h1>
         <Pets 
           pets = {this.state.pets}
         />
+        <Persons 
+          persons={this.state.persons}/>
         <Person 
           person={this.state.person}
         />
