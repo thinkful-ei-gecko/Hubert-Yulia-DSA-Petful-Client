@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import config from '../../config'
+import config from '../../config';
+import Pets from '../Pets/Pets';
 
 export default class LandingPage extends Component {
   constructor() {
     super()
     this.state = {
       name: '',
+      pets:[]
     }
   }
 
@@ -36,6 +38,19 @@ export default class LandingPage extends Component {
 			name: e.target.value,
 		})
   }
+  componentDidMount() {
+    fetch(`${config.API_ENDPOINT}/pet/list`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Error')
+      }
+      return res;
+    })
+    .then(res => res.json())
+    .then(pets => this.setState({ pets: pets }))
+    .catch(e => console.error(e))
+  }
+  
   
   render() {
     return(
@@ -45,6 +60,7 @@ export default class LandingPage extends Component {
         <p>
         Here at petful, you are able to adopt either a cat or a dog. The adoption process is strictly on a first come first serve basis, so get your place in line to adopt the pet of your dreams.
         </p>
+        <Pets pets={this.state.pets}/>
         <form onSubmit={this.handleSubmit}>
           <legend>Adopt a Pet!</legend>
           <label htmlFor="name">What is your name?</label>
